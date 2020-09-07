@@ -25,7 +25,7 @@ SECRET_KEY = '3kvx+*v-buv+ph$-2k575z1&t@*#k^+pi2#gd$r570!!a78#b('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,11 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'index',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # 添加中间件LocaleMiddleware
+    'django.middleware.locale.LocalMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -52,6 +55,19 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'messageBoard.urls'
 
 TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',  # Django根据模板引擎的顺序解析模板文件
+        'DIRS': [
+            os.path.join('index/templates'),
+            os.path.join(BASE_DIR, 'templates'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'environment': [
+                'messageBoard.jinja2.environment',
+            ],
+        },
+    },
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
@@ -75,8 +91,12 @@ WSGI_APPLICATION = 'messageBoard.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'messagedb',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
+        'PORT': 3306,
     }
 }
 
