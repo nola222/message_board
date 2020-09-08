@@ -9,3 +9,16 @@
 重要说明:
     在模板文件index.html中使用表单实现信息提交功能
 """
+from django import forms
+from .models import *
+
+
+class MessageModelForm(forms.ModelForm):
+    """信息反馈表单类
+    """
+    class Meta:
+        """信息反馈表单Meta类
+        """
+        model = Message
+        fields = '__all__'
+
